@@ -26,7 +26,7 @@ while (my $record = UCLA_Batch::safenext($batch)) {
     $loc = $field->subfield('a');
   }
   my $outfilename = $filename . '_' . $loc . $extension;
-  open OUT, ">>$outfilename" or die "Cannot open output file: $!\n";
+  open OUT, '>>:utf8', $outfilename or die "Cannot open output file: $!\n";
   print OUT $record->as_usmarc();
   close OUT;
 }

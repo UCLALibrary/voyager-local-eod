@@ -18,7 +18,7 @@ my $password = $ARGV[3];
 
 # YBP records are in MARC-8, not UTF-8
 my $batch = MARC::Batch->new('USMARC', $infile);
-open OUT, '>', $outfile or die "Cannot open output file: $!\n";
+open OUT, '>:utf8', $outfile or die "Cannot open output file: $!\n";
 
 # Make database connection
 my $dsn = "dbi:Oracle:host=localhost;sid=VGER";
