@@ -1,0 +1,11 @@
+# FTP credentials
+*credentials
+
+# Lists of retrieved files
+*.lst
+*.bak
+
+# Directories of loaded records
+archive
+loaded
+
