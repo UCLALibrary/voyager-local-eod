@@ -16,7 +16,7 @@ my $outfile = $ARGV[1];
 my $schema = $ARGV[2];
 my $password = $ARGV[3];
 
-# YBP records are in MARC-8, not UTF-8
+# YBP/OCLC records are in UTF-8
 my $batch = MARC::Batch->new('USMARC', $infile);
 open OUT, '>:utf8', $outfile or die "Cannot open output file: $!\n";
 
