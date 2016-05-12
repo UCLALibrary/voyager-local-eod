@@ -38,6 +38,19 @@ while (my $record = UCLA_Batch::safenext($batch)) {
   # Get 001 (OCLC record number)
   my $oclc = $record->field('001')->data();
 
+  # 2016-05-11: Records via OCLC WCM have multiple 049 fields; combine into one
+  my @all049sfds = ();
+  my @f049s = $record->field('049');
+  foreach my $f049 (@f049s) {
+    foreach my $sfd ($f049->subfields()) {
+      # Must copy each existing subfield (deref to code/val); can't just push(@all049sfds, $fld->subfields())
+      push(@all049sfds, $sfd->[0], $sfd->[1]);
+    }
+    $record->delete_field($f049);
+  } # $f049 iteration
+  my $combined_049 = MARC::Field->new('049', ' ', ' ', @all049sfds);
+  $record->insert_fields_ordered($combined_049);
+
   # Get 982 $b YBP account
   my $f982 = $record->field('982');
   my $account = "599030"; # default YRL account
