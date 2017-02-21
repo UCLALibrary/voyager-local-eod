@@ -62,7 +62,7 @@ while (my $record = UCLA_Batch::safenext($batch)) {
   my $loc = getLoc($account);
   # Loc is mandatory, set a default if not defined
   if (! defined($loc)) {
-    print "ERROR: $oclc has no location for $account, using yr\n";
+    print "WARNING: $oclc has no location for $account, using yr\n";
     $loc = "yr";
   }
   my $f952 = $record->field('952');
