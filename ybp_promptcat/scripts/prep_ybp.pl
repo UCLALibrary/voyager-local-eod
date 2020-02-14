@@ -51,6 +51,9 @@ while (my $record = UCLA_Batch::safenext($batch)) {
   my $combined_049 = MARC::Field->new('049', ' ', ' ', @all049sfds);
   $record->insert_fields_ordered($combined_049);
 
+  # Get (1st) 049 $o, if present, for possible location override later on
+  my $f049o = $combined_049->subfield('o') if defined($combined_049->subfield('o'));
+
   # Get 982 $b YBP account
   my $f982 = $record->field('982');
   my $account = "599030"; # default YRL account
@@ -65,6 +68,9 @@ while (my $record = UCLA_Batch::safenext($batch)) {
     print "WARNING: $oclc has no location for $account, using yr\n";
     $loc = "yr";
   }
+  # If there is 049 $o, use that for the loc instead
+  $loc = $f049o if defined($f049o);
+
   my $f952 = $record->field('952');
   if ($f952) {
     $f952->update(a => $loc);
