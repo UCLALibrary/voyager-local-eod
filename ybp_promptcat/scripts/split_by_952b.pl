@@ -22,8 +22,10 @@ $batch->strict_off();
 while (my $record = UCLA_Batch::safenext($batch)) {
   my $field = $record->field('952');
   my $loc = "yr"; #default
+  # Getting a variety of locations; split into files based on the "unit"
+  # (first 2 characters of the location), not the whole loc code.
   if ($field) {
-    $loc = $field->subfield('a');
+    $loc = substr($field->subfield('a'), 0, 2);
   }
   my $outfilename = $filename . '_' . $loc . $extension;
   open OUT, '>>:utf8', $outfilename or die "Cannot open output file: $!\n";
